@@ -1,0 +1,59 @@
+name: Deploy Node.js App to Elastic Beanstalk via S3
+
+on:
+  push:
+    branches: [ main ] 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    # Setup Node.js environment
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22.x'
+    
+    # Install dependencies
+    - name: Install dependencies
+      run: npm ci
+    
+    # Optional: Run tests
+    #- name: Run tests
+    #  run: npm test
+    
+    # Create deployment package
+    - name: Create deployment package
+      run: |
+        mkdir deployment
+        zip -r deployment/application.zip . -x '.git*' -x 'deployment*' -x 'node_modules*'
+    
+    # Configure AWS credentials
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    
+    # Upload to S3 Bucket
+    - name: Upload to S3
+      run: |
+        aws s3 cp deployment/application.zip s3://${{ secrets.S3_BUCKET_NAME }}/application.zip
+    
+    # Deploy to Elastic Beanstalk
+    - name: Deploy to Elastic Beanstalk
+      run: |
+        aws elasticbeanstalk create-application-version \
+          --application-name url-shortner-service \
+          --version-label ${{ github.sha }} \
+          --source-bundle S3Bucket=${{ secrets.S3_BUCKET_NAME }},S3Key=application.zip
+        
+        aws elasticbeanstalk update-environment \
+          --environment-name Url-shortner-service-env \
+          --version-label ${{ github.sha }}

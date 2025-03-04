@@ -48,7 +48,7 @@ jobs:
     # Upload to S3 Bucket
     - name: Upload to S3
       run: |
-        aws s3 cp deployment/application.zip s3://${{ secrets.S3_BUCKET_NAME }}/application.zip
+        aws s3 cp deployment/application.zip s3://${{ secrets.S3_BUCKET_NAME }}
     
     # Deploy to Elastic Beanstalk
     - name: Deploy to Elastic Beanstalk

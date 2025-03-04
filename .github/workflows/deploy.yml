@@ -56,8 +56,8 @@ jobs:
         aws elasticbeanstalk create-application-version \
           --application-name url-shortner-service \
           --version-label ${{ github.sha }} \
-          --source-bundle S3Bucket=${{ secrets.S3_BUCKET_NAME }},S3Key=application.zip
-        
+          --source-bundle "S3Bucket=${{ secrets.S3_BUCKET_NAME }},S3Key=application.zip"
+    
         aws elasticbeanstalk update-environment \
           --environment-name Url-shortner-service-env \
           --version-label ${{ github.sha }}

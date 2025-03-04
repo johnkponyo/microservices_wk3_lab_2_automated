@@ -26,7 +26,7 @@ This project demonstrated deploying a Node.js application using AWS Elastic Bean
 
 ## Deliverables
 - GitHub Repository URL: https://github.com/johnkponyo/microservices_wk3_lab_2_automated/
-- Deployed Application URL: http://url-shortner-service-env.eba-jyv2msim.us-east-1.elasticbeanstalk.com/
+- Deployed Application URL: http://url-shortner-service-env.eba-v3nfaput.us-east-1.elasticbeanstalk.com/
 
 ## Key Learning Outcomes
 - Gained hands-on experience with AWS Elastic Beanstalk

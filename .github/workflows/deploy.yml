@@ -32,6 +32,10 @@ jobs:
       run: |
         mkdir deployment
         zip -r deployment/application.zip . -x '.git*' -x 'deployment*' -x 'node_modules*'
+
+    - name: Verify deployment package
+      run: ls -lh deployment
+
     
     # Configure AWS credentials
     - name: Configure AWS credentials

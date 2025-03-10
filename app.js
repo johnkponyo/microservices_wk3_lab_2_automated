@@ -6,7 +6,7 @@ const PORT = 8080;
 // Importing the controllers
 const urlController = require('./controllers/urlController');
 
-// Setting the view engine
+// Setting the view engine.
 app.set('view engine', 'ejs');
 
 // Middleware
